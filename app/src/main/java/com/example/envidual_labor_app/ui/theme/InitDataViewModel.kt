@@ -255,7 +255,7 @@ class InitDataViewModel(private val savedStateHandle: SavedStateHandle) : ViewMo
             val parser = PipeParser()
             val messagen = parser.parse(textform)
 
-            savedStateHandle["patient_Name"] = messagen["PID"][5].value
+            savedStateHandle["patient_Name"] = messagen["PID"][5].value + " " + messagen["PID"][5][2].value
             savedStateHandle["patient_DateOfBirth"] = formatiereDatum(messagen["PID"][7].value.toString())
             savedStateHandle["patient_Tagebuchnummer"] = messagen["ORC"][3].value.toString()
 

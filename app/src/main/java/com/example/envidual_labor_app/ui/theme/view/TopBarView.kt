@@ -26,24 +26,25 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.envidual_labor_app.R
+import com.example.envidual_labor_app.ui.theme.InitDataViewModel
 import com.example.envidual_labor_app.ui.theme.data.Hl7InitData
 import com.example.envidual_labor_app.ui.theme.model.Value
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "StateFlowValueCalledInComposition")
 @Composable
-fun TopBarView() {
-
+fun TopBarView(mylist: InitDataViewModel) {
     val getData = Hl7InitData()
     getData.initData()
 
+    val patientName = mylist.patient_Name.value
+    val patientDateOfBirth = mylist.patient_DateOfBirth.value
+    val patientTagebuchnummer = mylist.patient_Tagebuchnummer.value
 
     Box(
         Modifier.background(
             color = colorResource(R.color.blue_700)
         ),
-
         contentAlignment = Alignment.Center
-
     ) {
         Column {
             Row(
@@ -60,13 +61,11 @@ fun TopBarView() {
                             Icons.Filled.KeyboardArrowLeft,
                             "contentDescription",
                             tint = Color.White,
-
-
                             )
                     }
                     Spacer(modifier = Modifier.height(20.dp))
                     Text(
-                        text = getData.getPatientName(),
+                        text = patientName.toString(),
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold,
                         textAlign = TextAlign.Start,
@@ -93,7 +92,7 @@ fun TopBarView() {
                     Spacer(modifier = Modifier.height(8.dp))
 
                     Text(
-                        text = getData.getPatientBirthOfDate(),
+                        text = patientDateOfBirth.toString(),
                         fontSize = 18.sp,
                         textAlign = TextAlign.Start,
                         color = Color.White
@@ -110,12 +109,11 @@ fun TopBarView() {
                     Spacer(modifier = Modifier.height(8.dp))
 
                     Text(
-                        text = getData.getPatientTagebuchnummer(),
+                        text = patientTagebuchnummer.toString(),
                         fontSize = 18.sp,
                         textAlign = TextAlign.Start,
                         color = Color.White
                     )
-
                 }
             }
         }
