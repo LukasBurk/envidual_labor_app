@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,7 +24,6 @@ fun SliderWithLabel(
     valueRange: ClosedFloatingPointRange<Float>,
     finiteEnd: Boolean,
     labelMinWidth: Dp = 24.dp,
-
 ) {
 
     Column() {
@@ -34,15 +32,12 @@ fun SliderWithLabel(
             modifier = Modifier
                 .fillMaxWidth()
         ) {
-
-
             val offset = getSliderOffset(
                 value = value,
                 valueRange = valueRange,
                 boxWidth = maxWidth,
-                labelWidth = labelMinWidth + 8.dp // Since we use a padding of 4.dp on either sides of the SliderLabel, we need to account for this in our calculation
+                labelWidth = labelMinWidth + 8.dp
             )
-
             val endValueText =
                 if (!finiteEnd && value >= valueRange.endInclusive) "${
                     value.toInt()
@@ -55,19 +50,14 @@ fun SliderWithLabel(
                 )
             }
         }
-
         Slider(
             value = value, onValueChange = {
-
             },
             valueRange = valueRange,
             modifier = Modifier.fillMaxWidth()
         )
-
     }
-
 }
-
 
 @Composable
 fun SliderLabel(label: String, minWidth: Dp, modifier: Modifier = Modifier) {
@@ -85,7 +75,6 @@ fun SliderLabel(label: String, minWidth: Dp, modifier: Modifier = Modifier) {
     )
 }
 
-
 private fun getSliderOffset(
     value: Float,
     valueRange: ClosedFloatingPointRange<Float>,
@@ -98,8 +87,5 @@ private fun getSliderOffset(
 
     return (boxWidth - labelWidth) * positionFraction
 }
-
-
-// Calculate the 0..1 fraction that `pos` value represents between `a` and `b`
 private fun calcFraction(a: Float, b: Float, pos: Float) =
     (if (b - a == 0f) 0f else (pos - a) / (b - a)).coerceIn(0f, 1f)

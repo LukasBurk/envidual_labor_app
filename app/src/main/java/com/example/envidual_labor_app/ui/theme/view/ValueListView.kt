@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 import com.example.envidual_labor_app.ui.theme.component.ValueCard
 import org.openehealth.ipf.modules.hl7.kotlin.get
 import org.openehealth.ipf.modules.hl7.kotlin.value
-import com.example.envidual_labor_app.ui.theme.InitDataViewModel
+import com.example.envidual_labor_app.ui.theme.viewmodel.InitDataViewModel
 import org.openehealth.ipf.modules.hl7.kotlin.value
 
 @SuppressLint("StateFlowValueCalledInComposition")
@@ -62,10 +62,6 @@ fun ValueListView(mylist: InitDataViewModel) {
 //        }) {
 //
 //    }
-
-
-
-
 
 fun stringToFloat(input: String): Float {
     try {

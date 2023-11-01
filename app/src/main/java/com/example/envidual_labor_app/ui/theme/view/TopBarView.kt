@@ -26,15 +26,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.envidual_labor_app.R
-import com.example.envidual_labor_app.ui.theme.InitDataViewModel
-import com.example.envidual_labor_app.ui.theme.data.Hl7InitData
-import com.example.envidual_labor_app.ui.theme.model.Value
+import com.example.envidual_labor_app.ui.theme.viewmodel.InitDataViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "StateFlowValueCalledInComposition")
 @Composable
 fun TopBarView(mylist: InitDataViewModel) {
-    val getData = Hl7InitData()
-    getData.initData()
 
     val patientName = mylist.patient_Name.value
     val patientDateOfBirth = mylist.patient_DateOfBirth.value

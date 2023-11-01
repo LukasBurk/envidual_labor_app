@@ -1,22 +1,28 @@
-package com.example.envidual_labor_app.ui.theme.data
+package com.example.envidual_labor_app.ui.theme.viewmodel
 
-import androidx.compose.ui.focus.FocusDirection.Companion.In
-import ca.uhn.hl7v2.*
-import ca.uhn.hl7v2.model.Message
-import ca.uhn.hl7v2.model.Structure
-import ca.uhn.hl7v2.parser.*
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
+import ca.uhn.hl7v2.HL7Exception
+import ca.uhn.hl7v2.parser.PipeParser
+import kotlinx.coroutines.flow.StateFlow
 import org.openehealth.ipf.modules.hl7.kotlin.asIterable
 import org.openehealth.ipf.modules.hl7.kotlin.get
 import org.openehealth.ipf.modules.hl7.kotlin.value
 import java.text.SimpleDateFormat
+import ca.uhn.hl7v2.model.Structure
 
-class Hl7InitData {
+class InitDataViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel() {
 
-    var patient_Name = ""
-    var patient_DateOfBirth = ""
-    var patient_Tagebuchnummer = ""
-    var obxListfilled = {}
-    var filledMessage = {}
+    val patient_Name: StateFlow<String> = savedStateHandle.getStateFlow("patient_Name", "")
+    val patient_DateOfBirth: StateFlow<String> =
+        savedStateHandle.getStateFlow("patient_DateOfBirth", "")
+    val patient_Tagebuchnummer: StateFlow<String> =
+        savedStateHandle.getStateFlow("patient_Tagebuchnummer", "")
+    val obxListfilled: StateFlow<List<Structure>> =
+        savedStateHandle.getStateFlow("obxListfilled", mutableListOf())
+    val filledMessage: StateFlow<String> =
+        savedStateHandle.getStateFlow("patient_Tagebuchnummer", "")
+    val befunde: StateFlow<Int> = savedStateHandle.getStateFlow("befunde", 0)
 
     // HL7 Datei
     val textform =
@@ -240,35 +246,36 @@ class Hl7InitData {
                 "OBX|80|CE|7TRANS^Transferrin-Sättigung||29.1|%|||||P|||||Schreiber, Jeannette\r" +
                 "\r"
 
-
     fun initData() {
         try {
             val parser = PipeParser()
             val messagen = parser.parse(textform)
 
-            patient_Name = messagen["PID"][5].value.toString()
-            patient_DateOfBirth = formatiereDatum(messagen["PID"][7].value.toString())
-            patient_Tagebuchnummer = messagen["ORC"][3].value.toString()
+            savedStateHandle["patient_Name"] =
+                messagen["PID"][5].value + " " + messagen["PID"][5][2].value
+            savedStateHandle["patient_DateOfBirth"] =
+                formatiereDatum(messagen["PID"][7].value.toString())
+            savedStateHandle["patient_Tagebuchnummer"] = messagen["ORC"][3].value.toString()
 
+            savedStateHandle["filledMessage"] = messagen.toString()
 
             // Find all nested OBX segments
             var obxList = messagen.asIterable().filter { it.name == "OBX" }
 
-            //filledMessage = obxList
+            savedStateHandle["obxListfilled"] = obxList
 
             // Iteriere durch alle Segmente
             for (segment in obxList) {
                 // Überprüfe, ob das aktuelle Segment ein "OBX"-Segment ist
                 if (segment.name == "OBX") {
+                    //println("Found OBX Segment:")
 
+                    if (segment[7].value != null) {
+                        savedStateHandle["befunde"] = befunde.value + 1
+                        print("BEFUNDE : ${befunde.value}")
+                    }
 
-
-                    println("Found OBX Segment:")
-                    print(segment[3].value)
                     segment[3][2].value
-                    // Zugreifen auf die Felder im Segment
-
-                    println("---------------")
                 }
             }
 
@@ -277,7 +284,6 @@ class Hl7InitData {
             e.printStackTrace()
         }
     }
-
 
     fun formatiereDatum(datumString: String): String {
         val ursprungsFormat = SimpleDateFormat("yyyyMMdd")
@@ -290,18 +296,5 @@ class Hl7InitData {
             return "Ungültiges Datum"
         }
     }
-
-    fun getPatientName(): String {
-        return patient_Name
-    }
-
-    fun getPatientBirthOfDate(): String {
-        return patient_DateOfBirth
-    }
-
-    fun getPatientTagebuchnummer(): String {
-        return patient_Tagebuchnummer
-    }
-
 
 }

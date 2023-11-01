@@ -5,6 +5,4 @@ data class Value(
     val name: String,
     val value: Float,
     val unit: String,
-
-
     )
