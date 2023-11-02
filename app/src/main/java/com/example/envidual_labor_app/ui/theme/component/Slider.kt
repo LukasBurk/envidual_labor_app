@@ -7,7 +7,10 @@ import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderColors
+import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -36,7 +39,8 @@ fun SliderWithLabel(
                 value = value,
                 valueRange = valueRange,
                 boxWidth = maxWidth,
-                labelWidth = labelMinWidth + 8.dp
+                labelWidth = labelMinWidth + 8.dp,
+
             )
             val endValueText =
                 if (!finiteEnd && value >= valueRange.endInclusive) "${
@@ -54,6 +58,10 @@ fun SliderWithLabel(
             value = value, onValueChange = {
             },
             valueRange = valueRange,
+            colors = SliderDefaults.colors(
+                thumbColor = colorResource(R.color.green_500),
+                activeTrackColor = colorResource(R.color.green_500),
+                inactiveTrackColor = colorResource(R.color.orange_500)),
             modifier = Modifier.fillMaxWidth()
         )
     }

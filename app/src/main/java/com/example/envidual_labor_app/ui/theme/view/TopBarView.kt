@@ -88,7 +88,7 @@ fun TopBarView(mylist: InitDataViewModel) {
                     Spacer(modifier = Modifier.height(8.dp))
 
                     Text(
-                        text = patientDateOfBirth.toString(),
+                        text = patientDateOfBirth,
                         fontSize = 18.sp,
                         textAlign = TextAlign.Start,
                         color = Color.White

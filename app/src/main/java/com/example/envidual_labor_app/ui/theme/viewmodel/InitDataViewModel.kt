@@ -11,7 +11,7 @@ import org.openehealth.ipf.modules.hl7.kotlin.value
 import java.text.SimpleDateFormat
 import ca.uhn.hl7v2.model.Structure
 
-class InitDataViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel() {
+class InitDataViewModel (private val savedStateHandle: SavedStateHandle) : ViewModel() {
 
     val patient_Name: StateFlow<String> = savedStateHandle.getStateFlow("patient_Name", "")
     val patient_DateOfBirth: StateFlow<String> =

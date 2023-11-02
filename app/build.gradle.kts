@@ -60,6 +60,7 @@ dependencies {
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3:1.1.1")
+    //implementation("androidx.hilt:hilt-work:1.0.0")
     //implementation("ca.uhn.hapi.fhir:hapi-fhir-base:5.6.0")
     //implementation("ca.uhn.hapi.fhir:hapi-fhir-validation:6.2.5")
     //implementation("ca.uhn.hapi.fhir:hapi-fhir-structures-r4:6.2.5")

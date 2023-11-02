@@ -41,9 +41,13 @@ fun ValueListView(mylist: InitDataViewModel) {
                 for (segment in list.value) {
                     // Überprüfe, ob das aktuelle Segment ein "OBX"-Segment ist
                     if (segment.name == "OBX") {
-                        segment[3][2].value
-                        Spacer(modifier = Modifier.height(8.dp))
-                        ValueCard(valueName = segment[3][2].value.toString(), value = stringToFloat(segment[5].value.toString()), unit = segment[6].value.toString())
+                        // Überprüfe, ob es CE ist, bzw. es darf kein ST (Storno) sein!
+                        if(segment[2].value == "CE") {
+                            Spacer(modifier = Modifier.height(8.dp))
+                            ValueCard(valueName = segment[3][2].value.toString(), value = stringToFloat(segment[5].value.toString()), unit = segment[6].value.toString())
+                        }
+                        //Spacer(modifier = Modifier.height(8.dp))
+                        //ValueCard(valueName = segment[3][2].value.toString(), value = stringToFloat(segment[5].value.toString()), unit = segment[6].value.toString())
 
                         }
                     }
